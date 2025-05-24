@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GestionEventosAPI.Data;
-using GestionEventosUTN.Models;
+using Libreria.Modelo;
 
 namespace GestionEventosAPI.Controllers
 {

@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Oracle.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
 namespace GestionEventosUTN_.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250509193548_Inicial")]
-    partial class Inicial
+    [Migration("20250524184120_OracleInitial")]
+    partial class OracleInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,23 +21,27 @@ namespace GestionEventosUTN_.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Certificado", b =>
+            OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Libreria.Modelo.Certificado", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CodigoVerificacion")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<DateTime>("FechaEmision")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TIMESTAMP(7)");
 
                     b.Property<int>("InscripcionId")
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
 
                     b.HasKey("Id");
 
@@ -46,39 +51,41 @@ namespace GestionEventosUTN_.Migrations
                     b.ToTable("Certificados");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Evento", b =>
+            modelBuilder.Entity("Libreria.Modelo.Evento", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TIMESTAMP(7)");
 
                     b.Property<string>("Lugar")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("Tipo")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Eventos");
+                    b.ToTable("EVENTOS");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.EventoPonente", b =>
+            modelBuilder.Entity("Libreria.Modelo.EventoPonente", b =>
                 {
                     b.Property<int>("EventoId")
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
 
                     b.Property<int>("PonenteId")
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
 
                     b.HasKey("EventoId", "PonenteId");
 
@@ -87,24 +94,26 @@ namespace GestionEventosUTN_.Migrations
                     b.ToTable("EventoPonentes");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Inscripcion", b =>
+            modelBuilder.Entity("Libreria.Modelo.Inscripcion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Estado")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<int>("EventoId")
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TIMESTAMP(7)");
 
                     b.Property<int>("ParticipanteId")
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
 
                     b.HasKey("Id");
 
@@ -115,25 +124,27 @@ namespace GestionEventosUTN_.Migrations
                     b.ToTable("Inscripciones");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Pago", b =>
+            modelBuilder.Entity("Libreria.Modelo.Pago", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TIMESTAMP(7)");
 
                     b.Property<int>("InscripcionId")
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
 
                     b.Property<string>("Medio")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<decimal>("Monto")
                         .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
+                        .HasColumnType("DECIMAL(10,2)");
 
                     b.HasKey("Id");
 
@@ -143,59 +154,65 @@ namespace GestionEventosUTN_.Migrations
                     b.ToTable("Pagos");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Participante", b =>
+            modelBuilder.Entity("Libreria.Modelo.Participante", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Correo")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Participantes");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Ponente", b =>
+            modelBuilder.Entity("Libreria.Modelo.Ponente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Ponentes");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Sesion", b =>
+            modelBuilder.Entity("Libreria.Modelo.Sesion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
+
+                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("EventoId")
-                        .HasColumnType("int");
+                        .HasColumnType("NUMBER(10)");
 
                     b.Property<DateTime>("Horario")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("TIMESTAMP(7)");
 
                     b.Property<string>("Sala")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.HasKey("Id");
 
@@ -204,26 +221,26 @@ namespace GestionEventosUTN_.Migrations
                     b.ToTable("Sesiones");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Certificado", b =>
+            modelBuilder.Entity("Libreria.Modelo.Certificado", b =>
                 {
-                    b.HasOne("GestionEventosUTN.Models.Inscripcion", "Inscripcion")
+                    b.HasOne("Libreria.Modelo.Inscripcion", "Inscripcion")
                         .WithOne("Certificado")
-                        .HasForeignKey("GestionEventosUTN.Models.Certificado", "InscripcionId")
+                        .HasForeignKey("Libreria.Modelo.Certificado", "InscripcionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Inscripcion");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.EventoPonente", b =>
+            modelBuilder.Entity("Libreria.Modelo.EventoPonente", b =>
                 {
-                    b.HasOne("GestionEventosUTN.Models.Evento", "Evento")
+                    b.HasOne("Libreria.Modelo.Evento", "Evento")
                         .WithMany("EventoPonentes")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GestionEventosUTN.Models.Ponente", "Ponente")
+                    b.HasOne("Libreria.Modelo.Ponente", "Ponente")
                         .WithMany("EventoPonentes")
                         .HasForeignKey("PonenteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -234,15 +251,15 @@ namespace GestionEventosUTN_.Migrations
                     b.Navigation("Ponente");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Inscripcion", b =>
+            modelBuilder.Entity("Libreria.Modelo.Inscripcion", b =>
                 {
-                    b.HasOne("GestionEventosUTN.Models.Evento", "Evento")
+                    b.HasOne("Libreria.Modelo.Evento", "Evento")
                         .WithMany("Inscripciones")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GestionEventosUTN.Models.Participante", "Participante")
+                    b.HasOne("Libreria.Modelo.Participante", "Participante")
                         .WithMany("Inscripciones")
                         .HasForeignKey("ParticipanteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -253,20 +270,20 @@ namespace GestionEventosUTN_.Migrations
                     b.Navigation("Participante");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Pago", b =>
+            modelBuilder.Entity("Libreria.Modelo.Pago", b =>
                 {
-                    b.HasOne("GestionEventosUTN.Models.Inscripcion", "Inscripcion")
+                    b.HasOne("Libreria.Modelo.Inscripcion", "Inscripcion")
                         .WithOne("Pago")
-                        .HasForeignKey("GestionEventosUTN.Models.Pago", "InscripcionId")
+                        .HasForeignKey("Libreria.Modelo.Pago", "InscripcionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Inscripcion");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Sesion", b =>
+            modelBuilder.Entity("Libreria.Modelo.Sesion", b =>
                 {
-                    b.HasOne("GestionEventosUTN.Models.Evento", "Evento")
+                    b.HasOne("Libreria.Modelo.Evento", "Evento")
                         .WithMany("Sesiones")
                         .HasForeignKey("EventoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -275,7 +292,7 @@ namespace GestionEventosUTN_.Migrations
                     b.Navigation("Evento");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Evento", b =>
+            modelBuilder.Entity("Libreria.Modelo.Evento", b =>
                 {
                     b.Navigation("EventoPonentes");
 
@@ -284,19 +301,19 @@ namespace GestionEventosUTN_.Migrations
                     b.Navigation("Sesiones");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Inscripcion", b =>
+            modelBuilder.Entity("Libreria.Modelo.Inscripcion", b =>
                 {
                     b.Navigation("Certificado");
 
                     b.Navigation("Pago");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Participante", b =>
+            modelBuilder.Entity("Libreria.Modelo.Participante", b =>
                 {
                     b.Navigation("Inscripciones");
                 });
 
-            modelBuilder.Entity("GestionEventosUTN.Models.Ponente", b =>
+            modelBuilder.Entity("Libreria.Modelo.Ponente", b =>
                 {
                     b.Navigation("EventoPonentes");
                 });

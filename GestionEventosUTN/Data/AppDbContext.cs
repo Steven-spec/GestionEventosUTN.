@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using GestionEventosUTN.Models;
+using Libreria.Modelo;
 
 namespace GestionEventosAPI.Data
 {
@@ -35,8 +35,7 @@ namespace GestionEventosAPI.Data
 
             modelBuilder.Entity<Pago>()
                 .Property(p => p.Monto)
-                .HasPrecision(10, 2); // Esto es compatible con MariaDB
+                .HasPrecision(10, 2);
         }
     }
 }
-

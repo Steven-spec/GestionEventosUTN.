@@ -3,13 +3,11 @@ using GestionEventosAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configurar la conexión a MariaDB/MySQL
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
-    )
-);
+    options.UseOracle(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+    
 
 // Configurar controladores y Swagger para la documentación de la API
 builder.Services.AddControllers();
